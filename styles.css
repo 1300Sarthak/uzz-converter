@@ -133,3 +133,14 @@ button:hover {
 .fade-in {
     animation: fadeIn 0.3s ease forwards;
 }
+
+footer {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: transparent;
+    font-size: 0.9rem;
+    color: #636e72;
+    padding: 0.5rem 0;
+}
