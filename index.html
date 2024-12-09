@@ -3,26 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMAO</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Uzz-ify Word Converter</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    <!-- PyScript CSS -->
-    <link rel="stylesheet" href="https://pyscript.net/releases/2024.10.2/core.css">
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #2d3436;
+        }
 
-    <!-- This script tag bootstraps PyScript -->
-    <script type="module" src="https://pyscript.net/releases/2024.10.2/core.js"></script>
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #2d3436;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #dfe6e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.2);
+        }
+
+        button {
+            background: #74b9ff;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        button:hover {
+            background: #0984e3;
+            transform: translateY(-2px);
+        }
+
+        .output {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            min-height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .history {
+            margin-top: 2rem;
+            border-top: 2px solid #f1f2f6;
+            padding-top: 1rem;
+        }
+
+        .history h2 {
+            font-size: 1.2rem;
+            color: #636e72;
+            margin-bottom: 1rem;
+        }
+
+        .history-list {
+            list-style: none;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        .history-item:hover {
+            background: #f1f2f6;
+        }
+
+        .history-item span {
+            color: #2d3436;
+        }
+
+        .history-item .arrow {
+            color: #74b9ff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Uzz-ify Converter</h1>
+        <div class="input-group">
+            <input type="text" id="inputString" placeholder="Enter your word here" autocomplete="off">
+        </div>
+        <button onclick="manipulateString()">
+            <i class="fas fa-magic"></i> fix this word
+        </button>
+        <div class="output" id="output"></div>
+        
+        <div class="history">
+            <h2>Recent Conversions</h2>
+            <ul class="history-list" id="historyList"></ul>
+        </div>
+    </div>
 
-    <header> HELLO WORLD </header>
-    <body>test</body>
-    
-    <py-script> src="app.py" </py-script> 
+    <script>
+        let conversionHistory = [];
+        
+        function manipulateString() {
+            let input = document.getElementById("inputString").value.trim();
+            if (!input) return;
 
+            let output = '';
+            
+            if ([0, 1, 2, 3].includes(input.length)) {
+                output = input + "uzz";
+            } else if (input.length === 4) {
+                input = input.slice(0, -2);
+                output = input + "uzz";
+            } else if (input.length >= 5) {
+                input = input.slice(0, -3);
+                output = input + "uzz";
+            }
 
+            // Update output display with animation
+            const outputDiv = document.getElementById("output");
+            outputDiv.style.opacity = "0";
+            outputDiv.innerText = output;
+            outputDiv.style.opacity = "1";
+            
+            // Add to history
+            addToHistory(input, output);
+            
+            // Clear input
+            document.getElementById("inputString").value = "";
+        }
 
+        function addToHistory(input, output) {
+            conversionHistory.unshift({ input, output });
+            if (conversionHistory.length > 5) {
+                conversionHistory.pop();
+            }
+            updateHistoryDisplay();
+        }
 
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById("historyList");
+            historyList.innerHTML = "";
+            
+            conversionHistory.forEach((item, index) => {
+                const li = document.createElement("li");
+                li.className = "history-item fade-in";
+                li.style.animationDelay = `${index * 0.1}s`;
+                li.innerHTML = `
+                    <span>${item.input}</span>
+                    <span class="arrow">→</span>
+                    <span>${item.output}</span>
+                `;
+                historyList.appendChild(li);
+            });
+        }
 
+        // Add enter key support
+        document.getElementById("inputString").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                manipulateString();
+            }
+        });
+    </script>
 </body>
 </html>
