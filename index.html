@@ -149,12 +149,12 @@
             <input type="text" id="inputString" placeholder="Enter your word here" autocomplete="off">
         </div>
         <button onclick="manipulateString()">
-            <i class="fas fa-magic"></i> fix this word
+            <i class="fas fa-magic"></i> Uzz-ify this word
         </button>
         <div class="output" id="output"></div>
         
         <div class="history">
-            <h2>Recent Conversions</h2>
+            <h2>Recently Uzz-ifed Words!</h2>
             <ul class="history-list" id="historyList"></ul>
         </div>
     </div>
@@ -193,7 +193,7 @@
 
         function addToHistory(input, output) {
             conversionHistory.unshift({ input, output });
-            if (conversionHistory.length > 5) {
+            if (conversionHistory.length > 10) {
                 conversionHistory.pop();
             }
             updateHistoryDisplay();
